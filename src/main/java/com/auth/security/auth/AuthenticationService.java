@@ -1,6 +1,7 @@
 package com.auth.security.auth;
 
 import com.auth.security.config.JwtService;
+import com.auth.security.user.Role;
 import com.auth.security.user.User;
 import com.auth.security.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class AuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.USER)
                 .build();
 
         userRepository.save(user);
