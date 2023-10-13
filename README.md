@@ -16,7 +16,7 @@ Make sure you have the following installed:
 
 - Java 17
 - Apache Maven
-- PostgreSQL (or any other relational database)
+- PostgreSQL
 
 ## Dependencies
 
@@ -27,8 +27,25 @@ Make sure you have the following installed:
 
 ## How to run
 
-You can build and run the application using Maven:
-```
-mvn spring-boot:run
-```
-The API will be available at `http://localhost:8080`. You can change the port and other settings in the `application.properties` file.
+1. Clone the repository to your local machine.
+
+2. Open the project in your IDE.
+
+3. Configure the database settings in `src/main/resources/application.properties`:
+
+   ```properties
+    spring.datasource.url=jdbc:postgresql://localhost:5432/todolist
+    spring.datasource.username=postgres
+    spring.datasource.password=postgres
+    spring.jpa.hibernate.ddl-auto=create-drop
+   ```
+
+   Modify the URL, username, and password to match your database configuration.
+
+4. Build and run the application:
+
+   ```bash
+   mvn spring-boot:run
+   ```
+
+The API will be accessible at `http://localhost:8080`.
