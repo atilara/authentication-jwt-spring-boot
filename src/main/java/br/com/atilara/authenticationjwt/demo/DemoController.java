@@ -1,4 +1,4 @@
-package com.auth.security.demo;
+package br.com.atilara.authenticationjwt.demo;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package com.auth.security;
+package br.com.atilara.authenticationjwt;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

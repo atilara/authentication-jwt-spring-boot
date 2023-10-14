@@ -1,4 +1,4 @@
-package com.auth.security;
+package br.com.atilara.authenticationjwt;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

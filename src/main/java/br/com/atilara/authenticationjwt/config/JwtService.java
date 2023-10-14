@@ -1,4 +1,4 @@
-package com.auth.security.config;
+package br.com.atilara.authenticationjwt.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

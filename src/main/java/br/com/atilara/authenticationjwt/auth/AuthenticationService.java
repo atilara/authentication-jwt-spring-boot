@@ -1,9 +1,9 @@
-package com.auth.security.auth;
+package br.com.atilara.authenticationjwt.auth;
 
-import com.auth.security.config.JwtService;
-import com.auth.security.user.Role;
-import com.auth.security.user.User;
-import com.auth.security.user.UserRepository;
+import br.com.atilara.authenticationjwt.config.JwtService;
+import br.com.atilara.authenticationjwt.user.Role;
+import br.com.atilara.authenticationjwt.user.User;
+import br.com.atilara.authenticationjwt.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

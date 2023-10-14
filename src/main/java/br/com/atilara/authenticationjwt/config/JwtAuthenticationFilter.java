@@ -1,4 +1,4 @@
-package com.auth.security.config;
+package br.com.atilara.authenticationjwt.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

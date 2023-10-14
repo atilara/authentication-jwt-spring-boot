@@ -1,4 +1,4 @@
-package com.auth.security.user;
+package br.com.atilara.authenticationjwt.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.auth.security.auth;
+package br.com.atilara.authenticationjwt.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
-
-    private String firstName;
-
-    private String lastName;
+public class AuthenticationRequest {
 
     private String email;
 

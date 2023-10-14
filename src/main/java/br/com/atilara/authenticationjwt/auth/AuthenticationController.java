@@ -1,4 +1,4 @@
-package com.auth.security.auth;
+package br.com.atilara.authenticationjwt.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
