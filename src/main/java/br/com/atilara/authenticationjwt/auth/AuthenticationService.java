@@ -1,8 +1,8 @@
 package br.com.atilara.authenticationjwt.auth;
 
 import br.com.atilara.authenticationjwt.config.JwtService;
-import br.com.atilara.authenticationjwt.user.Role;
-import br.com.atilara.authenticationjwt.user.User;
+import br.com.atilara.authenticationjwt.user.RoleEnum;
+import br.com.atilara.authenticationjwt.user.UserModel;
 import br.com.atilara.authenticationjwt.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,12 +24,12 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = User.builder()
+        var user = UserModel.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(RoleEnum.USER)
                 .build();
 
         userRepository.save(user);

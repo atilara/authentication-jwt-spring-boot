@@ -1,6 +1,6 @@
 package br.com.atilara.authenticationjwt.user;
 
-public enum Role {
+public enum RoleEnum {
 
     USER,
     ADMIN

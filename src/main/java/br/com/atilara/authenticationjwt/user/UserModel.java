@@ -19,7 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor // Lombok annotation to create an all args constructor
 @Entity // JPA annotation to make this object ready for storage in a JPA-based data store
 @Table(name = "_user") // JPA annotation to specify the table name
-public class User implements UserDetails {
+public class UserModel implements UserDetails {
 
     @Id // JPA annotation to specify the primary key
     @GeneratedValue(strategy = GenerationType.UUID) // JPA annotation to specify the primary key generation strategy
@@ -34,7 +34,7 @@ public class User implements UserDetails {
     private String password;
 
     @Enumerated(EnumType.STRING) // JPA annotation to specify the type of the enum
-    private Role role;
+    private RoleEnum role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
