@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,6 +20,7 @@ import static org.springframework.http.HttpMethod.*;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -33,16 +35,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**", "swagger-ui/**", "/v3/api-docs/**")
                 .permitAll()
-                .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-                .requestMatchers(GET, "api/v1/management/**").hasAnyAuthority(MANAGER_READ.name(), ADMIN_READ.name())
-                .requestMatchers(POST, "api/v1/management/**").hasAnyAuthority(MANAGER_CREATE.name(), ADMIN_CREATE.name())
-                .requestMatchers(PUT, "api/v1/management/**").hasAnyAuthority(MANAGER_UPDATE.name(), ADMIN_UPDATE.name())
-                .requestMatchers(DELETE, "api/v1/management/**").hasAnyAuthority(MANAGER_DELETE.name(), ADMIN_DELETE.name())
-                .requestMatchers("/api/v1/admin/**").hasAnyRole(ADMIN.name())
-                .requestMatchers(GET, "api/v1/admin/**").hasAnyAuthority(ADMIN_READ.name())
-                .requestMatchers(POST, "api/v1/admin/**").hasAnyAuthority(ADMIN_CREATE.name())
-                .requestMatchers(PUT, "api/v1/admin/**").hasAnyAuthority(ADMIN_UPDATE.name())
-                .requestMatchers(DELETE, "api/v1/admin/**").hasAnyAuthority(ADMIN_DELETE.name())
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -29,6 +29,7 @@ public class UserModel implements UserDetails {
 
     private String lastName;
 
+    @Column(unique = true) // JPA annotation to specify that this field must be unique
     private String email;
 
     private String password;
