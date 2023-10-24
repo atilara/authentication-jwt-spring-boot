@@ -1,0 +1,25 @@
+name: Build and deploy API to Docker Hub
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2 # Checkout the code in the action workspace, in this case ubuntu-latest
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: 17
+      - name: Unit tests
+        run: mvn -B test --file pom.xml
+      - name: Build with Maven
+        run:
+          mvn clean
+          mvn -B package --file pom.xml
+
+
