@@ -7,6 +7,10 @@ jobs:
   build-deploy:
     name: Build and deploy
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_USER: ${{ secrets.DATABASE_USER }}
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2 # Checkout the code in the action workspace, in this case ubuntu-latest
