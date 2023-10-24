@@ -5,6 +5,7 @@ on:
       - master
 jobs:
   build-deploy:
+    environment: production
     name: Build and deploy
     runs-on: ubuntu-latest
     env:
