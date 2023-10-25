@@ -40,4 +40,6 @@ jobs:
           context: .
           dockerfile: Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/authentication-jwt-spring-boot:${{ steps.project.outputs.version }}, ${{ secrets.DOCKERHUB_USERNAME }}/authentication-jwt-spring-boot:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/authentication-jwt-spring-boot:${{ steps.project.outputs.version }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/authentication-jwt-spring-boot:latest
