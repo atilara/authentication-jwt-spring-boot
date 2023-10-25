@@ -34,13 +34,10 @@ jobs:
       - name: Extract Maven project version
         run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
         id: project
-      - name: Show extracted Maven project version
-        run: echo ${{ steps.project.outputs.version }}
       - name: Push to Docker Hub
         uses: docker/build-push-action@v2
         with:
           context: .
           dockerfile: Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/authentication-jwt-spring-boot:${{ steps.project.outputs.version }}
-
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/authentication-jwt-spring-boot:${{ steps.project.outputs.version }}, ${{ secrets.DOCKERHUB_USERNAME }}/authentication-jwt-spring-boot:latest
