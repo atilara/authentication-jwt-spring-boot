@@ -52,5 +52,4 @@ jobs:
           tag: ${{ steps.project.outputs.version }}
           name: Release ${{ steps.project.outputs.version }}
           generateReleaseNotes: true
-          token: ${{ secrets.GITHUB_TOKEN }}
           artifacts: ./target/*.jar
