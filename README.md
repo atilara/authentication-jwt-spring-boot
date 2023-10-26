@@ -10,6 +10,16 @@ This is a Java Spring Boot application that serves as an authentication API, pro
 - JWT (JSON Web Token) authentication
 - Password hashing and salting
 
+## Actions
+
+- Run tests with `mvn test`
+- Build JAR with `mvn package`
+- Build Docker image and push to [Docker Hub](https://hub.docker.com/repository/docker/atilara/authentication-jwt-spring-boot) with the following params:
+  - `DATABASE_URL`: URL of the PostgreSQL database
+  - `DATABASE_USERNAME`: Username of the PostgreSQL database
+  - `DATABASE_PASSWORD`: Password of the PostgreSQL database
+- Publish release with the version written in `pom.xml`
+
 ## Prerequisites
 
 Make sure you have the following installed:
