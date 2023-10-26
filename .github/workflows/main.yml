@@ -52,6 +52,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.project.outputs.version }}
-          name: Release ${{ steps.project.outputs.version }}
+          name: v${{ steps.project.outputs.version }}
           generateReleaseNotes: true
           artifacts: ./target/*.jar
