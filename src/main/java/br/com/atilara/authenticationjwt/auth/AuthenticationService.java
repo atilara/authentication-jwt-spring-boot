@@ -40,6 +40,15 @@ public class AuthenticationService {
         tokenRepository.save(userToken);
     }
 
+    private void revokeAllUserTokens(UserModel user) {
+        var validUserTokens = tokenRepository.findAllValidTokensByUserId(user.getId());
+        validUserTokens.forEach(token -> {
+            token.setRevoked(true);
+            token.setExpired(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
+    }
+
     public AuthenticationResponse register(RegisterRequest request) {
         var user = UserModel.builder()
                 .firstName(request.getFirstName())
@@ -51,6 +60,7 @@ public class AuthenticationService {
 
         var savedUser = userRepository.save(user);
         var jwt = jwtService.generateToken(user);
+        revokeAllUserTokens(savedUser);
         saveUserToken(savedUser, jwt);
         return AuthenticationResponse.builder().jwt(jwt).build();
     }
@@ -61,6 +71,7 @@ public class AuthenticationService {
         );
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User or password incorrect"));
         var jwt = jwtService.generateToken(user);
+        revokeAllUserTokens(user);
         saveUserToken(user, jwt);
         return AuthenticationResponse.builder().jwt(jwt).build();
     }
