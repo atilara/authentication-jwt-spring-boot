@@ -1,6 +1,9 @@
 package br.com.atilara.authenticationjwt.auth;
 
 import br.com.atilara.authenticationjwt.config.JwtService;
+import br.com.atilara.authenticationjwt.token.TokenModel;
+import br.com.atilara.authenticationjwt.token.TokenRepository;
+import br.com.atilara.authenticationjwt.token.TokenTypeEnum;
 import br.com.atilara.authenticationjwt.user.RoleEnum;
 import br.com.atilara.authenticationjwt.user.UserModel;
 import br.com.atilara.authenticationjwt.user.UserRepository;
@@ -23,6 +26,29 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
+    private final TokenRepository tokenRepository;
+
+    private void saveUserToken(UserModel user, String token) {
+        var userToken = TokenModel.builder()
+                .token(token)
+                .tokenType(TokenTypeEnum.BEARER)
+                .user(user)
+                .expired(false)
+                .revoked(false)
+                .build();
+
+        tokenRepository.save(userToken);
+    }
+
+    private void revokeAllUserTokens(UserModel user) {
+        var validUserTokens = tokenRepository.findAllValidTokensByUserId(user.getId());
+        validUserTokens.forEach(token -> {
+            token.setRevoked(true);
+            token.setExpired(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
+    }
+
     public AuthenticationResponse register(RegisterRequest request) {
         var user = UserModel.builder()
                 .firstName(request.getFirstName())
@@ -32,8 +58,10 @@ public class AuthenticationService {
                 .role(request.getRole())
                 .build();
 
-        userRepository.save(user);
+        var savedUser = userRepository.save(user);
         var jwt = jwtService.generateToken(user);
+        revokeAllUserTokens(savedUser);
+        saveUserToken(savedUser, jwt);
         return AuthenticationResponse.builder().jwt(jwt).build();
     }
 
@@ -43,6 +71,8 @@ public class AuthenticationService {
         );
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User or password incorrect"));
         var jwt = jwtService.generateToken(user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwt);
         return AuthenticationResponse.builder().jwt(jwt).build();
     }
 

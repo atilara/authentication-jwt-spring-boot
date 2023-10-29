@@ -1,5 +1,6 @@
 package br.com.atilara.authenticationjwt.user;
 
+import br.com.atilara.authenticationjwt.token.TokenModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,6 +37,9 @@ public class UserModel implements UserDetails {
 
     @Enumerated(EnumType.STRING) // JPA annotation to specify the type of the enum
     private RoleEnum role;
+
+    @OneToMany(mappedBy = "user")
+    private List<TokenModel> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
