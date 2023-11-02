@@ -4,15 +4,22 @@ import br.com.atilara.authenticationjwt.config.JwtService;
 import br.com.atilara.authenticationjwt.token.TokenModel;
 import br.com.atilara.authenticationjwt.token.TokenRepository;
 import br.com.atilara.authenticationjwt.token.TokenTypeEnum;
-import br.com.atilara.authenticationjwt.user.RoleEnum;
 import br.com.atilara.authenticationjwt.user.UserModel;
 import br.com.atilara.authenticationjwt.user.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -59,21 +66,50 @@ public class AuthenticationService {
                 .build();
 
         var savedUser = userRepository.save(user);
-        var jwt = jwtService.generateToken(user);
+        var jwt = jwtService.generateAccessToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(savedUser);
         saveUserToken(savedUser, jwt);
-        return AuthenticationResponse.builder().jwt(jwt).build();
+        return AuthenticationResponse.builder().accessToken(jwt).refreshToken(refreshToken).build();
     }
 
     public AuthenticationResponse login(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User or password incorrect"));
-        var jwt = jwtService.generateToken(user);
+        var user = userRepository.findByEmail(
+                request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User or password incorrect")
+        );
+        var accessToken = jwtService.generateAccessToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
-        saveUserToken(user, jwt);
-        return AuthenticationResponse.builder().jwt(jwt).build();
+        saveUserToken(user, accessToken);
+        return AuthenticationResponse.builder().accessToken(accessToken).refreshToken(refreshToken).build();
+    }
+
+    public void refreshToken(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+        final String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return;
+        }
+        final String refreshToken = authHeader.substring(7);
+        final String userEmail = jwtService.extractUsername(refreshToken);
+        if (userEmail != null) {
+            var user = this.userRepository.findByEmail(userEmail).orElseThrow();
+            if (jwtService.isTokenValid(refreshToken, user)) {
+                var accessToken = jwtService.generateAccessToken(user);
+                revokeAllUserTokens(user);
+                saveUserToken(user, accessToken);
+                var authResponse = AuthenticationResponse.builder()
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .build();
+                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+            }
+        }
     }
 
 }
