@@ -1,8 +1,8 @@
-FROM openjdk:17-jdk
+FROM bellsoft/liberica-openjdk-alpine:17
 
 WORKDIR /app
 
-COPY target/authenticationjwt-* /app/authenticationjwt.jar
+COPY target/authenticationjwt-*.jar /app/authenticationjwt.jar
 
 EXPOSE 8080
 
