@@ -18,6 +18,7 @@ This is a Java Spring Boot application that serves as an authentication API, pro
   - `DATABASE_URL`: URL of the PostgreSQL database
   - `DATABASE_USERNAME`: Username of the PostgreSQL database
   - `DATABASE_PASSWORD`: Password of the PostgreSQL database
+  - `JWT_SECRET_KEY`:  Cryptographic key used to sign and verify JWTs
 - Publish release with the version written in `pom.xml`
 
 ## Prerequisites
@@ -41,13 +42,13 @@ Make sure you have the following installed:
 
 2. Open the project in your IDE.
 
-3. Configure the database settings in `src/main/resources/application.properties`:
+3. Configure the application settings that are read by `src/main/resources/application.yml`. Create a `.env` file in the root of the application with:
 
-   ```properties
-    spring.datasource.url=jdbc:postgresql://localhost:5432/todolist
-    spring.datasource.username=postgres
-    spring.datasource.password=postgres
-    spring.jpa.hibernate.ddl-auto=create-drop
+   ```env
+    DATABASE_URL=value
+    DATABASE_USER=value
+    DATABASE_PASSWORD=value
+    JWT_SECRET_KEY=value
    ```
 
    Modify the URL, username, and password to match your database configuration.
