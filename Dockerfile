@@ -2,7 +2,7 @@ FROM openjdk:17-jdk
 
 WORKDIR /app
 
-COPY target/authenticationjwt-* /app/authenticationjwt.jar
+COPY target/authenticationjwt-*.jar /app/authenticationjwt.jar
 
 EXPOSE 8080
 
