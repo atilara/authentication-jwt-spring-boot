@@ -14,7 +14,7 @@ This is a Java Spring Boot application that serves as an authentication API, pro
 
 - Run tests with `mvn test`
 - Build JAR with `mvn package`
-- Build Docker image and push to [Docker Hub](https://hub.docker.com/repository/docker/atilara/authentication-jwt-spring-boot) with the following params:
+- Build Docker image and push to [Docker Hub](https://hub.docker.com/r/atilara/authentication-jwt-spring-boot) with the following params:
   - `DATABASE_URL`: URL of the PostgreSQL database
   - `DATABASE_USERNAME`: Username of the PostgreSQL database
   - `DATABASE_PASSWORD`: Password of the PostgreSQL database
